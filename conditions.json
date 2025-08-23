@@ -1,0 +1,34 @@
+{
+  "procedures": {
+    "Dental Prophylaxis": "Dental cleaning under general anesthesia. Risks include anesthetic complications, hypothermia, hypotension, bleeding, aspiration, post-op pain, transient inappetence.",
+    "Dental with Extractions": "Dental cleaning with possible tooth extraction(s). Risks include anesthetic complications, bleeding, infection, fracture, delayed healing.",
+    "Spay (Ovariohysterectomy)": "Abdominal surgery to remove ovaries and uterus. Risks include anesthetic complications, bleeding, infection, seroma, incisional dehiscence.",
+    "Neuter (Castration)": "Surgical castration. Risks include anesthetic complications, bleeding, hematoma, infection, seroma, reaction to sutures.",
+    "Cherry Eye Repair": "Correction of prolapsed third eyelid gland. Risks include recurrence, infection, scarring, corneal irritation.",
+    "Other": "General surgical risks include anesthetic complications, bleeding, infection, swelling, and delayed healing."
+  },
+  "preSurgeryQuestions": [
+    "Has your pet been fasted for 12 hours before the surgery?",
+    "Did you notice any decrease in appetite?",
+    "Did you notice any increase in thirst?",
+    "Is your pet urinating or soiling in the house?",
+    "Is your pet vomiting?",
+    "Has your pet had diarrhea or changes in bowel movements?",
+    "Is your pet coughing?",
+    "Has your cat shown open-mouth breathing or panting?",
+    "Has your pet had hives or a skin rash?",
+    "Has your pet shown any unusual behaviour?"
+  ],
+  "optionalServices": [
+    "Nail Trim ($30 Complementary)",
+    "Ear Flush ($25)",
+    "Ear Plucking ($45)",
+    "Sanitary Trim ($95)",
+    "Anal Sac Expression ($45)",
+    "Microchipping ($60)",
+    "Radiographs 3 views + Consultation ($440)",
+    "Retained Baby Teeth Extraction (inquire cost)",
+    "Lump Removal if possible (inquire cost)",
+    "Update Vaccine ($40/vaccine + $58 PE)"
+  ]
+}

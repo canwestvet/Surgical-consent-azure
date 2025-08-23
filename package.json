@@ -1,0 +1,26 @@
+{
+  "name": "surgical-consent-azure",
+  "version": "1.0.0",
+  "description": "Veterinary surgical consent form with signature, PDF generation, and email submission",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.14",
+    "multer": "^1.4.5-lts.1",
+    "dotenv": "^16.4.5",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "author": "Creekside Veterinary Hospital",
+  "license": "MIT"
+}

@@ -1,0 +1,160 @@
+import express from "express";
+import multer from "multer";
+import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
+import nodemailer from "nodemailer";
+import { ClientSecretCredential } from "@azure/identity";
+
+dotenv.config();
+
+const app = express();
+const upload = multer({ storage: multer.memoryStorage() });
+
+// serve static files
+app.use(express.static(path.resolve(".")));
+
+// default route
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve("./consent-form.html"));
+});
+
+// conditions endpoint
+app.get("/conditions", (req, res) => {
+  try {
+    const p = path.resolve("./conditions.json");
+    const data = fs.readFileSync(p, "utf-8");
+    res.json(JSON.parse(data));
+  } catch (err) {
+    console.error("conditions.json error", err);
+    res.status(500).send("Failed to load conditions.");
+  }
+});
+
+// oauth2 transporter
+async function createTransporter() {
+  const credential = new ClientSecretCredential(
+    process.env.OAUTH_TENANT_ID,
+    process.env.OAUTH_CLIENT_ID,
+    process.env.OAUTH_CLIENT_SECRET
+  );
+  const token = await credential.getToken("https://outlook.office365.com/.default");
+
+  return nodemailer.createTransport({
+    host: "smtp.office365.com",
+    port: 587,
+    secure: false,
+    auth: {
+      type: "OAuth2",
+      user: process.env.OAUTH_USER,
+      accessToken: token.token
+    },
+    tls: { ciphers: "SSLv3" }
+  });
+}
+
+// append response to responses.json
+async function appendResponse(record) {
+  const filePath = path.resolve("./responses.json");
+  let list = [];
+  try {
+    if (fs.existsSync(filePath)) {
+      const raw = fs.readFileSync(filePath, "utf-8");
+      if (raw.trim().length) list = JSON.parse(raw);
+    }
+  } catch (e) {
+    console.error("read responses.json error", e);
+  }
+  list.push(record);
+  try {
+    const tmp = filePath + ".tmp";
+    fs.writeFileSync(tmp, JSON.stringify(list, null, 2));
+    fs.renameSync(tmp, filePath);
+  } catch (e) {
+    console.error("write responses.json error", e);
+  }
+}
+
+// handle submission
+app.post("/send-consent", upload.single("pdf"), async (req, res) => {
+  try {
+    const {
+      consentId,
+      owner,
+      ownerEmail,
+      clinicEmail,
+      pet,
+      procedure,
+      surgeryDate,
+      risks,
+      cpr,
+      preblood,
+      addons
+    } = req.body;
+
+    if (!req.file || !req.file.buffer) {
+      return res.status(400).send("PDF missing in request.");
+    }
+
+    const nowIso = new Date().toISOString();
+    const addonsArr = typeof addons === "string" && addons.length ? addons.split("|") : [];
+
+    // save structured response
+    await appendResponse({
+      consentId,
+      timestamp: nowIso,
+      owner,
+      ownerEmail,
+      clinicEmail: process.env.CLINIC_EMAIL || clinicEmail || "",
+      pet,
+      procedure,
+      surgeryDate,
+      risks: risks || "",
+      cpr: cpr || "",
+      preblood: preblood || "",
+      addons: addonsArr,
+      ip: req.ip,
+      userAgent: req.get("user-agent") || ""
+    });
+
+    // email
+    const transporter = await createTransporter();
+    const toList = [];
+    if (ownerEmail) toList.push(ownerEmail);
+    toList.push(process.env.CLINIC_EMAIL || clinicEmail);
+
+    const safeProc = (procedure || "").replace(/\s+/g, "");
+    const fileName = `${pet}_${safeProc}_${surgeryDate}_Consent_${consentId}.pdf`;
+
+    const mail = {
+      from: `Creekside Veterinary <${process.env.OAUTH_USER}>`,
+      to: toList.filter(Boolean),
+      subject: `Surgical Consent - ${pet} - ${procedure} (${consentId})`,
+      text: [
+        `Consent ID: ${consentId}`,
+        `Owner: ${owner}`,
+        `Pet: ${pet}`,
+        `Procedure: ${procedure}`,
+        `Surgery Date: ${surgeryDate}`,
+        `CPR: ${cpr || "N/A"}`,
+        `Pre-anesthetic bloodwork: ${preblood || "N/A"}`,
+        `Optional Services: ${addonsArr.length ? addonsArr.join(", ") : "None"}`
+      ].join("\n"),
+      attachments: [
+        { filename: fileName, content: req.file.buffer }
+      ],
+      headers: { "X-Consent-ID": consentId },
+      replyTo: process.env.CLINIC_EMAIL || clinicEmail
+    };
+
+    await transporter.sendMail(mail);
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Email or log error:", err);
+    res.status(500).send("Failed to send consent email.");
+  }
+});
+
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server running on http://localhost:${process.env.PORT || 3000}`);
+});
