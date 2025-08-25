@@ -79,7 +79,6 @@
     <div class="contact">
       12424 Symons Valley Road NW, Calgary, AB T3P 0A3<br/>
       (403) 274-6633 • info@creeksidevet.ca
-      (403) 274-6668 FAX
     </div>
   </div>
   <div class="id-tag" id="consentId">CONSENT: …</div>
@@ -156,7 +155,102 @@
   <!-- Pre-surgery questions -->
   <section class="card">
     <label>Pre-surgery health questions. Select Yes or No. One answer is required for each.</label>
-    <div id="preQWrap" style="display:grid; gap:8px; margin-top:8px"></div>
+    <div style="display:grid; gap:8px; margin-top:8px">
+      <div class="row">
+        <div>
+          <label>Has your pet been fasted for 12 hours before the surgery?</label>
+          <select id="q_fasted" class="yesno" required>
+            <option value="">—</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div>
+          <label>Did you notice any decrease in appetite?</label>
+          <select id="q_appetite" class="yesno" required>
+            <option value="">—</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Did you notice any increase in thirst?</label>
+          <select id="q_thirst" class="yesno" required>
+            <option value="">—</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div>
+          <label>Is your pet urinating or soiling in the house?</label>
+          <select id="q_urine" class="yesno" required>
+            <option value="">—</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Is your pet throwing up (vomiting)?</label>
+          <select id="q_vomit" class="yesno" required>
+            <option value="">—</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div>
+          <label>Has your pet had any diarrhea or changes in bowel movements?</label>
+          <select id="q_diarrhea" class="yesno" required>
+            <option value="">—</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Is your pet coughing?</label>
+          <select id="q_cough" class="yesno" required>
+            <option value="">—</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div>
+          <label>Has your pet shown open-mouth breathing or panting? (Cats only)</label>
+          <select id="q_panting" class="yesno" required>
+            <option value="">—</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Has your pet had hives or a skin rash?</label>
+          <select id="q_hives" class="yesno" required>
+            <option value="">—</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div>
+          <label>Has your pet shown any unusual behaviour?</label>
+          <select id="q_behavior" class="yesno" required>
+            <option value="">—</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Pre-anesthetic blood testing -->
@@ -175,27 +269,52 @@
   <section class="card">
     <label>Other optional services</label>
     <div class="muted small">Select any services you authorize during the procedure</div>
-    <div id="addonsWrap" style="margin-top:8px" class="inline"></div>
+    <div style="margin-top:8px" class="inline">
+      <label class="inline"><input type="checkbox" class="addon" value="Nail Trim ($30 Complementary)"> Nail Trim ($30 Complementary)</label>
+      <label class="inline"><input type="checkbox" class="addon" value="Ear Flush ($25)"> Ear Flush ($25)</label>
+      <label class="inline"><input type="checkbox" class="addon" value="Ear Plucking ($45)"> Ear Plucking ($45)</label>
+      <label class="inline"><input type="checkbox" class="addon" value="Sanitary Trim ($95)"> Sanitary Trim ($95)</label>
+      <label class="inline"><input type="checkbox" class="addon" value="Anal Sac expression ($45)"> Anal Sac expression ($45)</label>
+      <label class="inline"><input type="checkbox" class="addon" value="Microchipping ($60)"> Microchipping ($60)</label>
+      <label class="inline"><input type="checkbox" class="addon" value="Radiographs 3 views + Consultation ($440)"> Radiographs 3 views + Consultation ($440)</label>
+      <label class="inline"><input type="checkbox" class="addon" value="Retained Baby teeth Extraction (inquire cost)"> Retained Baby teeth Extraction (inquire cost)</label>
+      <label class="inline"><input type="checkbox" class="addon" value="Lump Removal if possible (inquire cost)"> Lump Removal if possible (inquire cost)</label>
+      <label class="inline"><input type="checkbox" class="addon" value="Update Vaccine ($40 /vaccine + $58 PE)"> Update Vaccine ($40 /vaccine + $58 PE)</label>
+    </div>
   </section>
 
-  <!-- CPR -->
+  <!-- CPR text and choice -->
   <section class="card shaded">
     <label>CPR and resuscitation</label>
     <div class="muted" style="margin-bottom:8px">
-      By signing this form, you indicate whether you consent or do not consent to Creekside Veterinary Hospital performing CPR on your pet in the event of a cardiac or respiratory arrest.
+      By signing this form, you indicate whether you consent or do not consent to Creekside Veterinary Hospital performing CPR on your pet in the event of a cardiac or respiratory arrest. CPR is an emergency procedure used when a patient’s heart stops beating or the patient stops breathing.
+
+      A Do Not Resuscitate order signifies a decision that CPR should not be performed.
+
+      Creekside Veterinary Hospital requires a documented CPR status for all patients prior to admission.
+
+      The cost of performing CPR may be up to $450 to $550. You accept financial responsibility for any fees.
+
+      Despite the medical team’s best efforts, CPR may not succeed. If the veterinary staff using reasonable medical judgment determines further CPR would not be successful, they may discontinue resuscitation.
     </div>
+
     <div class="checkboxes">
       <label class="inline"><input type="radio" name="cpr" value="Do NOT perform CPR" required> Do NOT perform CPR</label>
       <label class="inline"><input type="radio" name="cpr" value="Perform all possible life-saving measures" required> Perform all possible life-saving measures</label>
     </div>
   </section>
 
-  <!-- Payment -->
+  <!-- Payment Consent -->
   <section class="card">
     <label>Consent and Financial Acknowledgment</label>
     <div class="muted" style="margin-bottom:8px">
       I understand an estimate of costs has been provided. Creekside Veterinary Hospital does not offer payment plans. I agree to pay the full invoice at discharge by cash, credit card, or debit card.
+
+      If my pet is hospitalized beyond the first day, overnight care is at the attending veterinarian’s discretion. Continuous presence of personnel is not guaranteed. If I want continuous supervision when the facility is closed I will transfer my pet to an emergency clinic at my expense.
+
+      I am responsible for my pet and have authority to consent. I grant permission to treat, hospitalize, sedate, anesthetize, and operate on my pet as noted above. Creekside Veterinary Hospital will use reasonable precautions against injury, escape, or death but is not held liable. I accept the risks listed and authorize treatment.
     </div>
+
     <label class="inline"><input type="checkbox" id="paymentAgree"> I agree to the payment terms above.</label>
     <div class="error" id="paymentErr">Please confirm payment consent to continue.</div>
   </section>
@@ -213,7 +332,7 @@
     <div class="error" id="sigErr">Please provide a signature.</div>
   </section>
 
-  <!-- Final consent -->
+  <!-- Consent final -->
   <section class="card">
     <label>Consent Statement</label>
     <div class="muted" style="margin-bottom:8px">
@@ -239,134 +358,257 @@
 /* ---------- Unique ID ---------- */
 function genConsentId(){
   const d = new Date();
-  return `CRK-${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}-${Math.random().toString(36).slice(2,7).toUpperCase()}`;
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  const rand = Math.random().toString(36).slice(2,7).toUpperCase();
+  return `CRK-${y}${m}${day}-${rand}`;
 }
 const consentId = genConsentId();
 document.getElementById('consentId').textContent = `CONSENT: ${consentId}`;
 
-/* ---------- Load dynamic conditions ---------- */
-let conditions = {};
-async function loadConditions(){
-  const res = await fetch("/conditions");
-  conditions = await res.json();
+/* ---------- Risk templates ---------- */
+const riskTemplates = {
+  "Dental Prophylaxis": `Dental cleaning under general anesthesia. Potential risks include anesthetic complications, hypothermia, hypotension, bleeding, soft tissue trauma, aspiration, post-operative pain, transient inappetence. Hidden dental disease may be discovered intra-op; I consent to recommended intra-operative dental radiographs.`,
+  "Dental with Extractions": `Dental cleaning with possible tooth extraction(s). Risks include anesthetic complications, bleeding, infection, mandibular or maxillary fracture, retained root fragments, delayed healing, post-op pain and swelling.`,
+  "Spay (Ovariohysterectomy)": `Abdominal surgery to remove ovaries and uterus. Risks include anesthetic complications, bleeding, infection, seroma, incisional dehiscence, ovarian remnant syndrome, urinary complications, post-op pain, delayed healing.`,
+  "Neuter (Castration)": `Surgical castration. Risks include anesthetic complications, bleeding, hematoma, infection, seroma, reaction to sutures, post-op pain, delayed healing.`,
+  "Cherry Eye Repair": `Correction of prolapsed third eyelid gland. Risks include recurrence, infection, scarring, corneal irritation, vision change, suture reaction, gland atrophy. Technique dependent risks apply.`,
+  "Other": `Procedure-specific risks will be discussed. General risks include anesthetic complications, bleeding, infection, pain, swelling, and delayed healing.`
+};
 
-  // hook procedure -> risks
-  const sel = document.getElementById("procedure");
-  const risksEl = document.getElementById("risks");
-  sel.addEventListener("change", () => {
-    const p = sel.value || "Other";
-    risksEl.value = conditions.procedures[p] || "";
-  });
+const procedureSel = document.getElementById('procedure');
+const risksEl = document.getElementById('risks');
+procedureSel.addEventListener('change', () => {
+  const p = procedureSel.value || 'Other';
+  risksEl.value = riskTemplates[p] || '';
+});
 
-  // pre-surgery questions
-  const wrap = document.getElementById("preQWrap");
-  conditions.preSurgeryQuestions.forEach((q,i)=>{
-    const row = document.createElement("div");
-    row.className = "row";
-    row.innerHTML = `<div style="grid-column:1/-1">
-        <label>${q}</label>
-        <select id="q_${i}" class="yesno" required>
-          <option value="">—</option><option>Yes</option><option>No</option>
-        </select>
-      </div>`;
-    wrap.appendChild(row);
-  });
-
-  // optional services
-  const addonsWrap = document.getElementById("addonsWrap");
-  conditions.optionalServices.forEach(opt=>{
-    const lbl = document.createElement("label");
-    lbl.className="inline";
-    lbl.innerHTML=`<input type="checkbox" class="addon" value="${opt}"> ${opt}`;
-    addonsWrap.appendChild(lbl);
-  });
-}
-loadConditions();
-
-/* ---------- Signature ---------- */
+/* ---------- Signature Pad ---------- */
 const canvas = document.getElementById('sig');
-const sigPad = new SignaturePad(canvas,{penColor:'#000',backgroundColor:'#fff'});
+const sigPad = new SignaturePad(canvas, { penColor: '#000', backgroundColor: 'rgba(255,255,255,1)' });
+
 function resizeCanvas(){
-  const ratio = Math.max(window.devicePixelRatio||1,1);
+  const ratio = Math.max(window.devicePixelRatio || 1, 1);
   const rect = canvas.getBoundingClientRect();
   canvas.width = rect.width * ratio;
   canvas.height = rect.height * ratio;
-  canvas.getContext("2d").scale(ratio,ratio);
+  const ctx = canvas.getContext('2d');
+  ctx.scale(ratio, ratio);
   sigPad.clear();
 }
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
-document.getElementById("clearSig").onclick=()=>sigPad.clear();
-document.getElementById("typeToSign").onclick=()=>{
-  const name=document.getElementById("owner").value.trim();
-  if(!name){alert("Enter Owner / Agent name first.");return;}
+
+document.getElementById('clearSig').addEventListener('click', () => sigPad.clear());
+
+document.getElementById('typeToSign').addEventListener('click', () => {
+  const name = (document.getElementById('owner').value || '').trim();
+  if(!name){ alert('Enter Owner / Agent name first.'); return; }
   sigPad.clear();
-  const ctx=canvas.getContext("2d");
-  ctx.font="28px Georgia, serif";
-  ctx.fillText(name,16,120);
-};
+  const ctx = canvas.getContext('2d');
+  ctx.font = '28px Georgia, serif';
+  ctx.fillStyle = '#000';
+  ctx.fillText(name, 16, 120);
+});
 
 /* ---------- Validation ---------- */
+const $ = id => document.getElementById(id);
+const show = (el, on=true) => { el.style.display = on ? 'block' : 'none'; }
+
 function validate(){
-  const $=id=>document.getElementById(id);
-  if(!($("procedure").value||$("customProcedure").value.trim())){alert("Select procedure.");return false;}
-  if(!$("owner").value.trim()||!$("pet").value.trim()||!$("email").value.trim()||!$("surgeryDate").value){alert("Complete Owner, Pet, Email, Date.");return false;}
-  for(let i=0;i<conditions.preSurgeryQuestions.length;i++){if(!$(`q_${i}`).value){alert("Answer all pre-surgery questions.");return false;}}
-  if(!document.querySelector('input[name="preblood"]:checked')){alert("Choose pre-anesthetic blood test option.");return false;}
-  if(!document.querySelector('input[name="cpr"]:checked')){alert("Choose CPR option.");return false;}
-  if(!$("paymentAgree").checked){$("paymentErr").style.display="block";return false;} else {$("paymentErr").style.display="none";}
-  if(sigPad.isEmpty()){$("sigErr").style.display="block";return false;} else {$("sigErr").style.display="none";}
-  if(!$("consentAgree").checked){$("consentErr").style.display="block";return false;} else {$("consentErr").style.display="none";}
+  if(!(procedureSel.value || $('customProcedure').value.trim())){
+    alert('Please select a procedure or specify Other.');
+    return false;
+  }
+  if(!$('owner').value.trim() || !$('pet').value.trim() || !$('email').value.trim() || !$('surgeryDate').value){
+    alert('Please complete Owner, Pet, Email, and Date of Surgery.');
+    return false;
+  }
+
+  // all pre-surgery question selects required
+  const qIds = ['q_fasted','q_appetite','q_thirst','q_urine','q_vomit','q_diarrhea','q_cough','q_panting','q_hives','q_behavior'];
+  for(const id of qIds){
+    if(!$(id).value){
+      alert('Please answer all pre-surgery health questions.');
+      return false;
+    }
+  }
+
+  if(!document.querySelector('input[name="preblood"]:checked')){
+    alert('Please choose whether to accept or decline pre-anesthetic blood testing.');
+    return false;
+  }
+  if(!document.querySelector('input[name="cpr"]:checked')){
+    alert('Please choose a CPR option.');
+    return false;
+  }
+  if(!$('paymentAgree').checked){
+    show($('paymentErr'), true);
+    return false;
+  } else {
+    show($('paymentErr'), false);
+  }
+  if(sigPad.isEmpty()){
+    show($('sigErr'), true);
+    return false;
+  } else {
+    show($('sigErr'), false);
+  }
+  if(!$('consentAgree').checked){
+    show($('consentErr'), true);
+    return false;
+  } else {
+    show($('consentErr'), false);
+  }
   return true;
 }
 
 /* ---------- Reset ---------- */
-document.getElementById("resetBtn").onclick=()=>location.reload();
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  // simple full page reset
+  location.reload();
+});
 
-/* ---------- Submit ---------- */
-document.getElementById("submitBtn").onclick=async()=>{
-  if(!validate())return;
-  const $=id=>document.getElementById(id);
-  const procedure=$("procedure").value||$("customProcedure").value.trim();
-  const owner=$("owner").value.trim(), ownerEmail=$("email").value.trim();
-  const pet=$("pet").value.trim(), species=$("species").value, dob=$("dob").value||"—", surgeryDate=$("surgeryDate").value;
-  const cpr=document.querySelector('input[name="cpr"]:checked').value;
-  const preblood=document.querySelector('input[name="preblood"]:checked').value;
-  const addons=[...document.querySelectorAll(".addon:checked")].map(x=>x.value);
+/* ---------- Build PDF and send to backend ---------- */
+document.getElementById('submitBtn').addEventListener('click', async ()=>{
+  if(!validate()) return;
 
-  const {jsPDF}=window.jspdf; const doc=new jsPDF({unit:"pt",format:"letter"}); let y=40;
-  doc.setFont("helvetica","bold").setFontSize(14).text("Creekside Veterinary Hospital — Surgical Consent",40,y); y+=18;
-  doc.setFont("helvetica","normal").setFontSize(10).text("12424 Symons Valley Road NW, Calgary, AB T3P 0A3 • (403) 274-6633 • info@creeksidevet.ca",40,y); y+=18;
-  doc.text(`Consent ID: ${consentId}`,40,y); y+=20;
-  doc.setFont("helvetica","bold").text("Owner & Patient",40,y); y+=14; doc.setFont("helvetica","normal");
-  [ `Owner: ${owner}`,`Email: ${ownerEmail}`,`Pet: ${pet}`,`Species: ${species}`,`DOB: ${dob}`,`Procedure: ${procedure}`,`Surgery Date: ${surgeryDate}`].forEach(t=>{doc.text(t,40,y);y+=14;}); y+=6;
-  doc.setFont("helvetica","bold").text("Risks & Complications",40,y); y+=14; doc.setFont("helvetica","normal"); doc.text($("risks").value,40,y,{maxWidth:530}); y+=90;
-  doc.setFont("helvetica","bold").text("Pre-Surgery Questions",40,y); y+=14; doc.setFont("helvetica","normal");
-  conditions.preSurgeryQuestions.forEach((q,i)=>{const a=$(`q_${i}`).value;doc.text(`${q} ${a}`,40,y,{maxWidth:530});y+=12;}); y+=12;
-  doc.setFont("helvetica","bold").text("Other Details",40,y); y+=14; doc.setFont("helvetica","normal");
-  doc.text(`Pre-anesthetic bloodwork: ${preblood}`,40,y); y+=14;
-  doc.text(`CPR preference: ${cpr}`,40,y); y+=14;
-  if(addons.length){doc.text(`Optional Services: ${addons.join(", ")}`,40,y,{maxWidth:530}); y+=14;}
-  doc.setFont("helvetica","bold").text("Signature",40,y); y+=14;
-  const sigImg=sigPad.toDataURL(); doc.addImage(sigImg,"PNG",40,y,180,60); y+=80;
-  doc.text(`Signed by: ${owner}`,40,y); y+=14; doc.text(`Date: ${(new Date()).toLocaleDateString()}`,40,y);
-  const pdfBlob=doc.output("blob");
+  const procedure = procedureSel.value || $('customProcedure').value.trim();
+  const owner = $('owner').value.trim();
+  const ownerEmail = $('email').value.trim();
+  const pet = $('pet').value.trim();
+  const species = $('species').value;
+  const dob = $('dob').value || '—';
+  const surgeryDate = $('surgeryDate').value;
+  const consentStmt = $('consentAgree').checked ? 'Yes' : 'No';
+  const cpr = document.querySelector('input[name="cpr"]:checked')?.value || '';
+  const preblood = document.querySelector('input[name="preblood"]:checked')?.value || '';
+  const addons = Array.from(document.querySelectorAll('.addon:checked')).map(x=>x.value);
+  const preQ = {
+    fasted: $('q_fasted').value,
+    appetite: $('q_appetite').value,
+    thirst: $('q_thirst').value,
+    urine: $('q_urine').value,
+    vomit: $('q_vomit').value,
+    diarrhea: $('q_diarrhea').value,
+    cough: $('q_cough').value,
+    panting: $('q_panting').value,
+    hives: $('q_hives').value,
+    behavior: $('q_behavior').value
+  };
 
-  const formData=new FormData();
-  formData.append("pdf",pdfBlob,`${pet}_${procedure}_Consent.pdf`);
-  formData.append("consentId",consentId);
-  formData.append("owner",owner);
-  formData.append("ownerEmail",ownerEmail);
-  formData.append("pet",pet);
-  formData.append("procedure",procedure);
-  formData.append("surgeryDate",surgeryDate);
+  // build PDF
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit:'pt', format:'letter' });
+  let y = 40;
 
+  doc.setFont('helvetica','bold'); doc.setFontSize(14);
+  doc.text('Creekside Veterinary Hospital — Surgical Consent', 40, y); y+=18;
+  doc.setFont('helvetica','normal'); doc.setFontSize(10);
+  doc.text('12424 Symons Valley Road NW, Calgary, AB T3P 0A3 • (403) 274-6633 • info@creeksidevet.ca', 40, y); y+=18;
+  doc.text(`Consent ID: ${consentId}`, 40, y); y+=20;
+
+  doc.setFont('helvetica','bold'); doc.text('Owner & Patient', 40, y); y+=14; doc.setFont('helvetica','normal');
+  doc.text(`Owner: ${owner}`, 40, y); y+=14;
+  doc.text(`Email: ${ownerEmail}`, 40, y); y+=14;
+  doc.text(`Pet: ${pet}`, 40, y); y+=14;
+  doc.text(`Species: ${species}`, 40, y); y+=14;
+  doc.text(`DOB: ${dob}`, 40, y); y+=14;
+  doc.text(`Procedure: ${procedure}`, 40, y); y+=14;
+  doc.text(`Surgery Date: ${surgeryDate}`, 40, y); y+=20;
+
+  doc.setFont('helvetica','bold'); doc.text('Risks & Complications', 40, y); y+=14; doc.setFont('helvetica','normal');
+  const risks = doc.splitTextToSize(risksEl.value || '(none)', 535);
+  doc.text(risks, 40, y); y += (risks.length * 12) + 8;
+
+  doc.setFont('helvetica','bold'); doc.text('Pre-surgery Questions', 40, y); y+=14; doc.setFont('helvetica','normal');
+  const qs = [
+    `Fasted 12 hours: ${preQ.fasted}`,
+    `Decrease in appetite: ${preQ.appetite}`,
+    `Increased thirst: ${preQ.thirst}`,
+    `Urinating/soiling inside: ${preQ.urine}`,
+    `Vomiting: ${preQ.vomit}`,
+    `Diarrhea or bowel changes: ${preQ.diarrhea}`,
+    `Coughing: ${preQ.cough}`,
+    `Open-mouth breathing or panting (cats only): ${preQ.panting}`,
+    `Hives or skin rash: ${preQ.hives}`,
+    `Unusual behaviour: ${preQ.behavior}`
+  ];
+  const qText = doc.splitTextToSize(qs.join('\n'), 535);
+  doc.text(qText, 40, y); y += (qText.length * 12) + 8;
+
+  doc.setFont('helvetica','bold'); doc.text('Decisions & Services', 40, y); y+=14; doc.setFont('helvetica','normal');
+  doc.text(`CPR: ${cpr}`, 40, y); y+=14;
+  doc.text(`Pre-anesthetic blood testing: ${preblood}`, 40, y); y+=14;
+  doc.text(`Optional services: ${addons.length ? addons.join(', ') : 'None'}`, 40, y); y+=20;
+
+  doc.setFont('helvetica','bold'); doc.text('Payment Consent', 40, y); y+=14; doc.setFont('helvetica','normal');
+  const pay = `Owner agreed to payment terms at time of discharge. Owner accepts financial responsibility for care.`;
+  const payTxt = doc.splitTextToSize(pay, 535);
+  doc.text(payTxt, 40, y); y += (payTxt.length * 12) + 12;
+
+  // Signature
+  const sigData = sigPad.toDataURL('image/png');
+  doc.setFont('helvetica','bold'); doc.text('Owner/Agent Signature:', 40, y); y+=10;
+  const sigW = 260, sigH = 80;
+  doc.addImage(sigData, 'PNG', 40, y, sigW, sigH);
+  y += sigH + 18;
+  const when = new Date().toLocaleString();
+  doc.setFont('helvetica','normal'); doc.text(`Signed: ${when}`, 40, y); y+=20;
+
+  doc.setDrawColor(200,200,200);
+  doc.line(40, y, 572, y); y+=14;
+  doc.setTextColor(120);
+  doc.text('Electronically signed. Clinic copy will be emailed to owner and clinic.', 40, y);
+
+  // convert to blob
+  const pdfBlob = doc.output('blob');
+  const fileName = `${pet}_${procedure.replace(/\s+/g,'')}_${surgeryDate}_Consent_${consentId}.pdf`;
+
+  // prepare form data
+  const form = new FormData();
+  form.append('consentId', consentId);
+  form.append('owner', owner);
+  form.append('ownerEmail', ownerEmail);
+  form.append('clinicEmail', 'info@creeksidevet.ca'); // backend will use configured clinic email primarily
+  form.append('pet', pet);
+  form.append('procedure', procedure);
+  form.append('surgeryDate', surgeryDate);
+  form.append('risks', risksEl.value);
+  form.append('cpr', cpr);
+  form.append('preblood', preblood);
+  form.append('addons', addons.join('|'));
+  form.append('pdf', pdfBlob, fileName);
+
+  // send to backend
   try{
-    const resp=await fetch("/send-consent",{method:"POST",body:formData});
-    if(resp.ok) alert("Consent form submitted and emailed successfully.");
-    else alert("Failed to send. Contact clinic.");
-  }catch(err){alert("Error sending email. See console."); console.error(err);}
-};
+    const resp = await fetch('/send-consent', {
+      method: 'POST',
+      body: form
+    });
+    if(!resp.ok){
+      const text = await resp.text();
+      alert('Error sending consent to clinic server: ' + text);
+      return;
+    }
+    const json = await resp.json();
+    // optional: force client download as backup
+    const url = URL.createObjectURL(pdfBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+
+    alert('Consent sent to clinic and owner. A copy downloaded for your records.');
+  }catch(err){
+    console.error(err);
+    alert('Network error while sending consent. Check server.');
+  }
+});
 </script>
 </body>
 </html>
