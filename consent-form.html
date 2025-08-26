@@ -10,66 +10,42 @@
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
 <style>
-  :root{
-    --brand:#3777c6;
-    --brand-2:#eef5ff;
-    --ink:#1d2733;
-    --muted:#5b6b7b;
-    --line:#e6ecf3;
-    --danger:#b00020;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
-    color:var(--ink); background:#fff;
-  }
-  header{
-    padding:18px 20px; border-bottom:1px solid var(--line);
-    display:flex; align-items:center; justify-content:space-between;
-  }
-  .clinic{
-    font-weight:700; font-size:18px; color:var(--brand);
-  }
-  .contact{ color:var(--muted); font-size:13px; line-height:1.4 }
-  main{ max-width:900px; margin:24px auto; padding:0 16px 40px }
-  h1{ font-size:22px; margin:10px 0 16px }
-  .card{
-    border:1px solid var(--line); border-radius:14px; padding:16px; margin:12px 0;
-    background:#fff;
-  }
-  .card.shaded{ background:var(--brand-2); border-color:#dbe8ff }
-  label{ display:block; font-weight:600; font-size:14px; margin:10px 0 6px }
-  input[type=text],input[type=date],input[type=email],select,textarea{
-    width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:10px;
-    font-size:15px; background:#fff;
-  }
-  textarea{ min-height:130px; resize:vertical; }
-  .row{ display:grid; grid-template-columns:1fr 1fr; gap:12px }
-  @media (max-width:720px){ .row{ grid-template-columns:1fr } }
-  .muted{ color:var(--muted); font-size:13px }
-  .checkboxes{ display:grid; gap:8px }
-  .inline{
-    display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-  }
-  .sig-wrap{ border:1px dashed #c8d6ea; background:#fafcff; border-radius:12px; padding:10px }
-  canvas{ width:100%; height:220px; display:block; border-radius:8px; background:#fff; }
-  .btns{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px }
-  button{
-    appearance:none; border:none; border-radius:10px; padding:11px 16px; font-weight:600; cursor:pointer;
-    background:var(--brand); color:#fff;
-  }
-  button.secondary{ background:#eef2f7; color:#203244 }
-  button.ghost{ background:transparent; color:var(--brand); border:1px solid var(--brand) }
-  .error{ color:var(--danger); font-size:13px; margin-top:6px; display:none }
-  footer{
-    margin:28px 0 40px; text-align:center; color:var(--muted); font-size:13px
-  }
-  .id-tag{
-    display:inline-block; background:#f2f7ff; border:1px solid #dbe8ff; color:#2c57a6;
-    padding:6px 10px; border-radius:999px; font-weight:700; font-size:13px;
-  }
-  .small{ font-size:13px; color:var(--muted) }
-  select.yesno{ width:140px; padding:8px 10px }
+:root{
+  --brand:#3777c6;
+  --brand-2:#eef5ff;
+  --ink:#1d2733;
+  --muted:#5b6b7b;
+  --line:#e6ecf3;
+  --danger:#b00020;
+}
+*{box-sizing:border-box}
+body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial; color:var(--ink); background:#fff;}
+header{padding:18px 20px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;}
+.clinic{font-weight:700; font-size:18px; color:var(--brand);}
+.contact{color:var(--muted); font-size:13px; line-height:1.4;}
+main{max-width:900px; margin:24px auto; padding:0 16px 40px;}
+h1{font-size:22px; margin:10px 0 16px;}
+.card{border:1px solid var(--line); border-radius:14px; padding:16px; margin:12px 0; background:#fff;}
+.card.shaded{background:var(--brand-2); border-color:#dbe8ff;}
+label{display:block; font-weight:600; font-size:14px; margin:10px 0 6px;}
+input[type=text],input[type=date],input[type=email],select,textarea{width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:10px; font-size:15px; background:#fff;}
+textarea{min-height:130px; resize:vertical;}
+.row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+@media (max-width:720px){.row{grid-template-columns:1fr}}
+.muted{color:var(--muted); font-size:13px;}
+.checkboxes{display:grid; gap:8px;}
+.inline{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+.sig-wrap{border:1px dashed #c8d6ea; background:#fafcff; border-radius:12px; padding:10px;}
+canvas{width:100%; height:220px; display:block; border-radius:8px; background:#fff;}
+.btns{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
+button{appearance:none; border:none; border-radius:10px; padding:11px 16px; font-weight:600; cursor:pointer; background:var(--brand); color:#fff;}
+button.secondary{background:#eef2f7; color:#203244;}
+button.ghost{background:transparent; color:var(--brand); border:1px solid var(--brand);}
+.error{color:var(--danger); font-size:13px; margin-top:6px; display:none;}
+footer{margin:28px 0 40px; text-align:center; color:var(--muted); font-size:13px;}
+.id-tag{display:inline-block; background:#f2f7ff; border:1px solid #dbe8ff; color:#2c57a6; padding:6px 10px; border-radius:999px; font-weight:700; font-size:13px;}
+.small{font-size:13px; color:var(--muted);}
+select.yesno{width:140px; padding:8px 10px;}
 </style>
 </head>
 <body>
@@ -85,530 +61,261 @@
 </header>
 
 <main>
-  <h1>Surgical & Anesthesia Consent</h1>
+<h1>Surgical & Anesthesia Consent</h1>
 
-  <!-- Procedure & Terms -->
-  <section class="card shaded">
+<!-- Procedure & Terms -->
+<section class="card shaded">
+  <div class="row">
+    <div>
+      <label for="procedure">Procedure Type</label>
+      <select id="procedure" required>
+        <option value="">— Select a procedure —</option>
+        <option value="Dental Prophylaxis">Dental Prophylaxis (Cleaning)</option>
+        <option value="Dental with Extractions">Dental with Extractions</option>
+        <option value="Spay (Ovariohysterectomy)">Spay (Ovariohysterectomy)</option>
+        <option value="Neuter (Castration)">Neuter (Castration)</option>
+        <option value="Mass Removal">Mass Removal</option>
+        <option value="Cherry Eye Repair">Cherry Eye Repair</option>
+        <option value="Other">Other (specify below)</option>
+      </select>
+    </div>
+    <div>
+      <label for="customProcedure">If “Other”, specify</label>
+      <input type="text" id="customProcedure" placeholder="e.g., Gastropexy, Anal Sacculectomy" />
+    </div>
+  </div>
+
+  <label for="risks">Risks & Complications (editable template)</label>
+  <textarea id="risks"></textarea>
+  <div class="muted">Edit text as needed. Templates auto-load when procedure is selected.</div>
+</section>
+
+<!-- Client & Patient -->
+<section class="card">
+  <div class="row">
+    <div><label for="owner">Owner / Agent Full Name</label><input type="text" id="owner" required /></div>
+    <div><label for="email">Owner Email</label><input type="email" id="email" placeholder="name@example.com" required /></div>
+  </div>
+  <div class="row">
+    <div><label for="pet">Pet Name</label><input type="text" id="pet" required /></div>
+    <div><label for="species">Species</label>
+      <select id="species" required>
+        <option value="">— Select species —</option>
+        <option value="Dog">Dog</option>
+        <option value="Cat">Cat</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div><label for="dob">Pet Date of Birth</label><input type="date" id="dob" /></div>
+    <div><label for="surgeryDate">Date of Surgery</label><input type="date" id="surgeryDate" required /></div>
+  </div>
+</section>
+
+<!-- Pre-surgery questions -->
+<section class="card">
+  <label>Pre-surgery health questions (Yes/No)</label>
+  <div style="display:grid; gap:8px; margin-top:8px">
     <div class="row">
-      <div>
-        <label for="procedure">Procedure Type</label>
-        <select id="procedure" required>
-          <option value="">— Select a procedure —</option>
-          <option value="Dental Prophylaxis">Dental Prophylaxis (Cleaning)</option>
-          <option value="Dental with Extractions">Dental with Extractions</option>
-          <option value="Spay (Ovariohysterectomy)">Spay (Ovariohysterectomy)</option>
-          <option value="Neuter (Castration)">Neuter (Castration)</option>
-          <option value="Mass Removal">Mass Removal</option>
-          <option value="Cherry Eye Repair">Cherry Eye Repair</option>
-          <option value="Other">Other (specify below)</option>
-        </select>
-      </div>
-      <div>
-        <label for="customProcedure">If “Other”, specify</label>
-        <input type="text" id="customProcedure" placeholder="e.g., Gastropexy, Anal Sacculectomy" />
-      </div>
-    </div>
-
-    <label for="risks">Risks & Complications (editable template)</label>
-    <textarea id="risks"></textarea>
-    <div class="muted">Tip: Edit the text for this consent. Templates load automatically when you choose a procedure.</div>
-  </section>
-
-  <!-- Client & Patient -->
-  <section class="card">
-    <div class="row">
-      <div>
-        <label for="owner">Owner / Agent Full Name</label>
-        <input type="text" id="owner" required />
-      </div>
-      <div>
-        <label for="email">Owner Email (for PDF copy)</label>
-        <input type="email" id="email" placeholder="name@example.com" required />
-      </div>
+      <div><label>Has your pet been fasted for 12 hours before the surgery?</label><select id="q_fasted" class="yesno" required><option value="">—</option><option>Yes</option><option>No</option></select></div>
+      <div><label>Did you notice any decrease in appetite?</label><select id="q_appetite" class="yesno" required><option value="">—</option><option>Yes</option><option>No</option></select></div>
     </div>
     <div class="row">
-      <div>
-        <label for="pet">Pet Name</label>
-        <input type="text" id="pet" required />
-      </div>
-      <div>
-        <label for="species">Species</label>
-        <select id="species" required>
-          <option value="">— Select species —</option>
-          <option value="Dog">Dog</option>
-          <option value="Cat">Cat</option>
-        </select>
-      </div>
+      <div><label>Did you notice any increase in thirst?</label><select id="q_thirst" class="yesno" required><option value="">—</option><option>Yes</option><option>No</option></select></div>
+      <div><label>Is your pet urinating or soiling in the house?</label><select id="q_urine" class="yesno" required><option value="">—</option><option>Yes</option><option>No</option></select></div>
     </div>
     <div class="row">
-      <div>
-        <label for="dob">Pet Date of Birth (or Approx.)</label>
-        <input type="date" id="dob" />
-      </div>
-      <div>
-        <label for="surgeryDate">Date of Surgery</label>
-        <input type="date" id="surgeryDate" required />
-      </div>
+      <div><label>Is your pet throwing up (vomiting)?</label><select id="q_vomit" class="yesno" required><option value="">—</option><option>Yes</option><option>No</option></select></div>
+      <div><label>Has your pet had any diarrhea or changes in bowel movements?</label><select id="q_diarrhea" class="yesno" required><option value="">—</option><option>Yes</option><option>No</option></select></div>
     </div>
-  </section>
-
-  <!-- Pre-surgery questions -->
-  <section class="card">
-    <label>Pre-surgery health questions. Select Yes or No. One answer is required for each.</label>
-    <div style="display:grid; gap:8px; margin-top:8px">
-      <div class="row">
-        <div>
-          <label>Has your pet been fasted for 12 hours before the surgery?</label>
-          <select id="q_fasted" class="yesno" required>
-            <option value="">—</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-        <div>
-          <label>Did you notice any decrease in appetite?</label>
-          <select id="q_appetite" class="yesno" required>
-            <option value="">—</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Did you notice any increase in thirst?</label>
-          <select id="q_thirst" class="yesno" required>
-            <option value="">—</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-        <div>
-          <label>Is your pet urinating or soiling in the house?</label>
-          <select id="q_urine" class="yesno" required>
-            <option value="">—</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Is your pet throwing up (vomiting)?</label>
-          <select id="q_vomit" class="yesno" required>
-            <option value="">—</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-        <div>
-          <label>Has your pet had any diarrhea or changes in bowel movements?</label>
-          <select id="q_diarrhea" class="yesno" required>
-            <option value="">—</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Is your pet coughing?</label>
-          <select id="q_cough" class="yesno" required>
-            <option value="">—</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-        <div>
-          <label>Has your pet shown open-mouth breathing or panting? (Cats only)</label>
-          <select id="q_panting" class="yesno" required>
-            <option value="">—</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Has your pet had hives or a skin rash?</label>
-          <select id="q_hives" class="yesno" required>
-            <option value="">—</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-        <div>
-          <label>Has your pet shown any unusual behaviour?</label>
-          <select id="q_behavior" class="yesno" required>
-            <option value="">—</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-      </div>
+    <div class="row">
+      <div><label>Is your pet coughing?</label><select id="q_cough" class="yesno" required><option value="">—</option><option>Yes</option><option>No</option></select></div>
+      <div><label>Has your pet shown open-mouth breathing or panting? (Cats only)?</label><select id="q_panting" class="yesno" required><option value="">—</option><option>Yes</option><option>No</option></select></div>
     </div>
-  </section>
-
-  <!-- Pre-anesthetic blood testing -->
-  <section class="card shaded">
-    <label>Pre-anesthetic blood testing</label>
-    <div class="muted" style="margin-bottom:8px">
-      Pre-anesthetic blood testing helps identify hidden health problems that increase surgical or anesthesia risk. It evaluates organ function, blood counts, clotting ability, and electrolyte balance. Results guide whether to proceed, postpone, or adjust the procedure. Ask the clinic for the cost.
+    <div class="row">
+      <div><label>Has your pet had hives or a skin rash?</label><select id="q_hives" class="yesno" required><option value="">—</option><option>Yes</option><option>No</option></select></div>
+      <div><label>Has your pet shown any unusual behaviour?</label><select id="q_behavior" class="yesno" required><option value="">—</option><option>Yes</option><option>No</option></select></div>
     </div>
-    <div class="checkboxes">
-      <label class="inline"><input type="radio" name="preblood" value="Accept" required> I elect pre-anesthetic blood testing</label>
-      <label class="inline"><input type="radio" name="preblood" value="Decline" required> I decline pre-anesthetic blood testing</label>
-    </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Optional services -->
-  <section class="card">
-    <label>Other optional services</label>
-    <div class="muted small">Select any services you authorize during the procedure</div>
-    <div style="margin-top:8px" class="inline">
-      <label class="inline"><input type="checkbox" class="addon" value="Nail Trim ($30 Complementary)"> Nail Trim ($30 Complementary)</label>
-      <label class="inline"><input type="checkbox" class="addon" value="Ear Flush ($25)"> Ear Flush ($25)</label>
-      <label class="inline"><input type="checkbox" class="addon" value="Ear Plucking ($45)"> Ear Plucking ($45)</label>
-      <label class="inline"><input type="checkbox" class="addon" value="Sanitary Trim ($95)"> Sanitary Trim ($95)</label>
-      <label class="inline"><input type="checkbox" class="addon" value="Anal Sac expression ($45)"> Anal Sac expression ($45)</label>
-      <label class="inline"><input type="checkbox" class="addon" value="Microchipping ($60)"> Microchipping ($60)</label>
-      <label class="inline"><input type="checkbox" class="addon" value="Radiographs 3 views + Consultation ($440)"> Radiographs 3 views + Consultation ($440)</label>
-      <label class="inline"><input type="checkbox" class="addon" value="Retained Baby teeth Extraction (inquire cost)"> Retained Baby teeth Extraction (inquire cost)</label>
-      <label class="inline"><input type="checkbox" class="addon" value="Lump Removal if possible (inquire cost)"> Lump Removal if possible (inquire cost)</label>
-      <label class="inline"><input type="checkbox" class="addon" value="Update Vaccine ($40 /vaccine + $58 PE)"> Update Vaccine ($40 /vaccine + $58 PE)</label>
-    </div>
-  </section>
+<!-- Pre-anesthetic blood testing -->
+<section class="card shaded">
+  <label>Pre-anesthetic blood testing</label>
+  <div class="muted" style="margin-bottom:8px">
+    Pre-anesthetic blood testing helps identify hidden health problems that increase surgical or anesthesia risk. It evaluates organ function, blood counts, clotting ability, and electrolyte balance. Results guide whether to proceed, postpone, or adjust the procedure. Ask the clinic for the cost..
+  </div>
+  <div class="checkboxes">
+    <label class="inline"><input type="radio" name="preblood" value="Accept" required> I elect pre-anesthetic blood testing</label>
+    <label class="inline"><input type="radio" name="preblood" value="Decline" required> I decline pre-anesthetic blood testing</label>
+  </div>
+</section>
 
-  <!-- CPR text and choice -->
-  <section class="card shaded">
-    <label>CPR and resuscitation</label>
-    <div class="muted" style="margin-bottom:8px">
-      By signing this form, you indicate whether you consent or do not consent to Creekside Veterinary Hospital performing CPR on your pet in the event of a cardiac or respiratory arrest. CPR is an emergency procedure used when a patient’s heart stops beating or the patient stops breathing.
+<!-- Optional services -->
+<section class="card">
+  <label>Other optional services</label>
+  <div class="muted small">Select any services you authorize</div>
+  <div style="margin-top:8px" class="inline">
+    <label><input type="checkbox" class="addon" value="Nail Trim ($30)"> Nail Trim ($30 Complementary)</label>
+    <label><input type="checkbox" class="addon" value="Ear Flush ($25)"> Ear Flush ($25)</label>
+    <label><input type="checkbox" class="addon" value="Ear Plucking ($45)"> Ear Plucking ($45)</label>
+    <label><input type="checkbox" class="addon" value="Sanitary Trim ($95)"> Sanitary Trim ($95)</label>
+    <label><input type="checkbox" class="addon" value="Anal Sac expression ($45)"> Anal Sac expression ($45)</label>
+    <label><input type="checkbox" class="addon" value="Microchipping ($60)"> Microchipping ($60)</label>
+    <label><input type="checkbox" class="addon" value="Radiographs 3 views + Consultation ($440)"> Radiographs 3 views + Consultation ($440)</label>
+    <label><input type="checkbox" class="addon" value="Retained Baby teeth Extraction"> Retained Baby teeth Extraction (Get an estimate)</label>
+    <label><input type="checkbox" class="addon" value="Lump Removal if possible"> Lump Removal if possible (Get an estimate)</label>
+    <label><input type="checkbox" class="addon" value="Update Vaccine ($40/vaccine)"> Update Vaccine ($40 /vaccine + $58 PE)</label>
+  </div>
+</section>
 
-      A Do Not Resuscitate order signifies a decision that CPR should not be performed.
+<!-- CPR -->
+<section class="card shaded">
+  <label>CPR and resuscitation</label>
+  <div class="muted">
+    By signing this form, you indicate whether you consent or do not consent to Creekside Veterinary Hospital performing CPR on your pet in the event of a cardiac or respiratory arrest. CPR is an emergency procedure used when a patient’s heart stops beating or the patient stops breathing. A Do Not Resuscitate order signifies a decision that CPR should not be performed. Creekside Veterinary Hospital requires a documented CPR status for all patients prior to admission. The cost of performing CPR may be up to $450 to $550. You accept financial responsibility for any fees. Despite the medical team’s best efforts, CPR may not succeed. If the veterinary staff using reasonable medical judgment determines further CPR would not be successful, they may discontinue resuscitation..
+  </div>
+  <div class="checkboxes">
+    <label><input type="radio" name="cpr" value="Do NOT perform CPR" required> Do NOT perform CPR</label>
+    <label><input type="radio" name="cpr" value="Perform all possible life-saving measures" required> Perform all possible life-saving measures</label>
+  </div>
+</section>
 
-      Creekside Veterinary Hospital requires a documented CPR status for all patients prior to admission.
+<!-- Payment Consent -->
+<section class="card">
+  <label>Consent and Financial Acknowledgment</label>
+  <div class="muted">I understand an estimate of costs has been provided. Creekside Veterinary Hospital does not offer payment plans. I agree to pay the full invoice at discharge by cash, credit card, or debit card. If my pet is hospitalized beyond the first day, overnight care is at the attending veterinarian’s discretion. Continuous presence of personnel is not guaranteed. If I want continuous supervision when the facility is closed I will transfer my pet to an emergency clinic at my expense. I am responsible for my pet and have authority to consent. I grant permission to treat, hospitalize, sedate, anesthetize, and operate on my pet as noted above. Creekside Veterinary Hospital will use reasonable precautions against injury, escape, or death but is not held liable. I accept the risks listed and authorize treatment.
+.</div>
+  <label class="inline"><input type="checkbox" id="paymentAgree"> I agree to payment terms.</label>
+  <div class="error" id="paymentErr">Please confirm payment consent.</div>
+</section>
 
-      The cost of performing CPR may be up to $450 to $550. You accept financial responsibility for any fees.
+<!-- Signature -->
+<section class="card">
+  <label>Owner / Agent Signature</label>
+  <div class="sig-wrap"><canvas id="sig"></canvas></div>
+  <div class="btns">
+    <button type="button" class="secondary" id="clearSig">Clear</button>
+    <button type="button" class="ghost" id="typeToSign">Type-to-sign</button>
+  </div>
+  <div class="error" id="sigErr">Please provide a signature.</div>
+</section>
 
-      Despite the medical team’s best efforts, CPR may not succeed. If the veterinary staff using reasonable medical judgment determines further CPR would not be successful, they may discontinue resuscitation.
-    </div>
+<!-- Consent final -->
+<section class="card">
+  <label>Consent and Financial Acknowledgment</label>
+  <div class="muted">I am the owner or authorized agent of the above-named patient and authorize Creekside Veterinary Hospital and its staff to perform the procedures selected above. I have read and understand the risks and acknowledge no outcome can be guaranteed.</div>
+  <label class="inline"><input type="checkbox" id="consentAgree"> I consent to the above.</label>
+  <div class="error" id="consentErr">Please confirm consent.</div>
 
-    <div class="checkboxes">
-      <label class="inline"><input type="radio" name="cpr" value="Do NOT perform CPR" required> Do NOT perform CPR</label>
-      <label class="inline"><input type="radio" name="cpr" value="Perform all possible life-saving measures" required> Perform all possible life-saving measures</label>
-    </div>
-  </section>
+  <div class="btns">
+    <button id="submitBtn" type="button">Submit & Email Consent</button>
+    <button id="resetBtn" type="button" class="secondary">Reset Form</button>
+  </div>
+</section>
 
-  <!-- Payment Consent -->
-  <section class="card">
-    <label>Consent and Financial Acknowledgment</label>
-    <div class="muted" style="margin-bottom:8px">
-      I understand an estimate of costs has been provided. Creekside Veterinary Hospital does not offer payment plans. I agree to pay the full invoice at discharge by cash, credit card, or debit card.
-
-      If my pet is hospitalized beyond the first day, overnight care is at the attending veterinarian’s discretion. Continuous presence of personnel is not guaranteed. If I want continuous supervision when the facility is closed I will transfer my pet to an emergency clinic at my expense.
-
-      I am responsible for my pet and have authority to consent. I grant permission to treat, hospitalize, sedate, anesthetize, and operate on my pet as noted above. Creekside Veterinary Hospital will use reasonable precautions against injury, escape, or death but is not held liable. I accept the risks listed and authorize treatment.
-    </div>
-
-    <label class="inline"><input type="checkbox" id="paymentAgree"> I agree to the payment terms above.</label>
-    <div class="error" id="paymentErr">Please confirm payment consent to continue.</div>
-  </section>
-
-  <!-- Signature -->
-  <section class="card">
-    <label>Owner / Agent Signature</label>
-    <div class="sig-wrap">
-      <canvas id="sig"></canvas>
-    </div>
-    <div class="btns">
-      <button type="button" class="secondary" id="clearSig">Clear signature</button>
-      <button type="button" class="ghost" id="typeToSign">Type-to-sign</button>
-    </div>
-    <div class="error" id="sigErr">Please provide a signature.</div>
-  </section>
-
-  <!-- Consent final -->
-  <section class="card">
-    <label>Consent Statement</label>
-    <div class="muted" style="margin-bottom:8px">
-      I am the owner or authorized agent of the above-named patient and authorize Creekside Veterinary Hospital and its staff to perform the procedures selected above. I have read and understand the risks and acknowledge no outcome can be guaranteed.
-    </div>
-    <label class="inline"><input type="checkbox" id="consentAgree"> I have read, understood, and consent to the above.</label>
-    <div class="error" id="consentErr">Please confirm consent to continue.</div>
-
-    <div class="btns">
-      <button id="submitBtn" type="button">Submit & Email Consent</button>
-      <button id="resetBtn" type="button" class="secondary">Reset Form</button>
-    </div>
-  </section>
-
-  <footer>
-    © Creekside Veterinary Hospital — This form is a prototype.
-    For production, documents are stored securely and a copy is emailed to the owner.<br/>
-    Questions? (403) 274-6633 • info@creeksidevet.ca
-  </footer>
+<footer>© Creekside Veterinary Hospital. Secure PDF emailed to owner and clinic.</footer>
 </main>
 
 <script>
-/* ---------- Unique ID ---------- */
-function genConsentId(){
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth()+1).padStart(2,'0');
-  const day = String(d.getDate()).padStart(2,'0');
-  const rand = Math.random().toString(36).slice(2,7).toUpperCase();
-  return `CRK-${y}${m}${day}-${rand}`;
-}
-const consentId = genConsentId();
-document.getElementById('consentId').textContent = `CONSENT: ${consentId}`;
+// Generate Consent ID
+function genConsentId(){const d=new Date(); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const day=String(d.getDate()).padStart(2,'0'); const rand=Math.random().toString(36).slice(2,7).toUpperCase(); return `CRK-${y}${m}${day}-${rand}`;}
+const consentId = genConsentId(); document.getElementById('consentId').textContent = `CONSENT: ${consentId}`;
 
-/* ---------- Risk templates ---------- */
+// Risk templates
 const riskTemplates = {
-  "Dental Prophylaxis": `Dental cleaning under general anesthesia. Potential risks include anesthetic complications, hypothermia, hypotension, bleeding, soft tissue trauma, aspiration, post-operative pain, transient inappetence. Hidden dental disease may be discovered intra-op; I consent to recommended intra-operative dental radiographs.`,
-  "Dental with Extractions": `Dental cleaning with possible tooth extraction(s). Risks include anesthetic complications, bleeding, infection, mandibular or maxillary fracture, retained root fragments, delayed healing, post-op pain and swelling.`,
-  "Spay (Ovariohysterectomy)": `Abdominal surgery to remove ovaries and uterus. Risks include anesthetic complications, bleeding, infection, seroma, incisional dehiscence, ovarian remnant syndrome, urinary complications, post-op pain, delayed healing.`,
-  "Neuter (Castration)": `Surgical castration. Risks include anesthetic complications, bleeding, hematoma, infection, seroma, reaction to sutures, post-op pain, delayed healing.`,
-  "Cherry Eye Repair": `Correction of prolapsed third eyelid gland. Risks include recurrence, infection, scarring, corneal irritation, vision change, suture reaction, gland atrophy. Technique dependent risks apply.`,
-  "Other": `Procedure-specific risks will be discussed. General risks include anesthetic complications, bleeding, infection, pain, swelling, and delayed healing.`
+  "Dental Prophylaxis": "Dental cleaning under general anesthesia. Potential risks include anesthetic complications, hypothermia, hypotension, bleeding, soft tissue trauma, aspiration, post-operative pain, transient inappetence. Hidden dental disease may be discovered intra-op; I consent to recommended intra-operative dental radiographs.",
+  "Dental with Extractions": "Dental cleaning with possible tooth extraction(s). Risks include anesthetic complications, bleeding, infection, mandibular or maxillary fracture, retained root fragments, delayed healing, post-op pain and swelling.",
+  "Spay (Ovariohysterectomy)": "Abdominal surgery to remove ovaries and uterus. Risks include anesthetic complications, bleeding, infection, seroma, incisional dehiscence, ovarian remnant syndrome, urinary complications, post-op pain, delayed healing.",
+  "Neuter (Castration)": "Surgical castration. Risks include anesthetic complications, bleeding, hematoma, infection, seroma, reaction to sutures, post-op pain, delayed healing.",
+  "Cherry Eye Repair": "Correction of prolapsed third eyelid gland. Risks include recurrence, infection, scarring, corneal irritation, vision change, suture reaction, gland atrophy. Technique dependent risks apply.",
+  "Other": "" // Will be dynamically generated
 };
 
-const procedureSel = document.getElementById('procedure');
-const risksEl = document.getElementById('risks');
-procedureSel.addEventListener('change', () => {
-  const p = procedureSel.value || 'Other';
-  risksEl.value = riskTemplates[p] || '';
-});
+// Update risks when procedure changes
+document.getElementById('procedure').addEventListener('change', () => {
+  const procedure = document.getElementById('procedure').value;
+  const risksField = document.getElementById('risks');
 
-/* ---------- Signature Pad ---------- */
-const canvas = document.getElementById('sig');
-const sigPad = new SignaturePad(canvas, { penColor: '#000', backgroundColor: 'rgba(255,255,255,1)' });
-
-function resizeCanvas(){
-  const ratio = Math.max(window.devicePixelRatio || 1, 1);
-  const rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width * ratio;
-  canvas.height = rect.height * ratio;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(ratio, ratio);
-  sigPad.clear();
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-document.getElementById('clearSig').addEventListener('click', () => sigPad.clear());
-
-document.getElementById('typeToSign').addEventListener('click', () => {
-  const name = (document.getElementById('owner').value || '').trim();
-  if(!name){ alert('Enter Owner / Agent name first.'); return; }
-  sigPad.clear();
-  const ctx = canvas.getContext('2d');
-  ctx.font = '28px Georgia, serif';
-  ctx.fillStyle = '#000';
-  ctx.fillText(name, 16, 120);
-});
-
-/* ---------- Validation ---------- */
-const $ = id => document.getElementById(id);
-const show = (el, on=true) => { el.style.display = on ? 'block' : 'none'; }
-
-function validate(){
-  if(!(procedureSel.value || $('customProcedure').value.trim())){
-    alert('Please select a procedure or specify Other.');
-    return false;
-  }
-  if(!$('owner').value.trim() || !$('pet').value.trim() || !$('email').value.trim() || !$('surgeryDate').value){
-    alert('Please complete Owner, Pet, Email, and Date of Surgery.');
-    return false;
-  }
-
-  // all pre-surgery question selects required
-  const qIds = ['q_fasted','q_appetite','q_thirst','q_urine','q_vomit','q_diarrhea','q_cough','q_panting','q_hives','q_behavior'];
-  for(const id of qIds){
-    if(!$(id).value){
-      alert('Please answer all pre-surgery health questions.');
-      return false;
+  if (procedure === "Other") {
+    const customProcedure = document.getElementById('customProcedure').value.trim();
+    if (customProcedure) {
+      risksField.value = `${customProcedure} will be performed. General risks include anesthetic complications, bleeding, infection, post-operative pain, delayed healing. Additional risks may be identified intra-operatively.`;
+    } else {
+      risksField.value = "Procedure-specific risks will be discussed. General risks include anesthetic complications, bleeding, infection, post-operative pain, delayed healing.";
     }
+  } else {
+    risksField.value = riskTemplates[procedure] || "";
   }
+});
 
-  if(!document.querySelector('input[name="preblood"]:checked')){
-    alert('Please choose whether to accept or decline pre-anesthetic blood testing.');
-    return false;
+// Update risks dynamically when typing in customProcedure field
+document.getElementById('customProcedure').addEventListener('input', () => {
+  if (document.getElementById('procedure').value === "Other") {
+    const customProcedure = document.getElementById('customProcedure').value.trim();
+    const risksField = document.getElementById('risks');
+    risksField.value = customProcedure
+      ? `${customProcedure} will be performed. General risks include anesthetic complications, bleeding, infection, post-operative pain, delayed healing. Additional risks may be identified intra-operatively.`
+      : "Procedure-specific risks will be discussed. General risks include anesthetic complications, bleeding, infection, post-operative pain, delayed healing.";
   }
-  if(!document.querySelector('input[name="cpr"]:checked')){
-    alert('Please choose a CPR option.');
-    return false;
-  }
-  if(!$('paymentAgree').checked){
-    show($('paymentErr'), true);
-    return false;
-  } else {
-    show($('paymentErr'), false);
-  }
-  if(sigPad.isEmpty()){
-    show($('sigErr'), true);
-    return false;
-  } else {
-    show($('sigErr'), false);
-  }
-  if(!$('consentAgree').checked){
-    show($('consentErr'), true);
-    return false;
-  } else {
-    show($('consentErr'), false);
-  }
+});
+
+
+// Signature Pad
+const canvas = document.getElementById('sig');
+const sigPad = new SignaturePad(canvas,{penColor:'#000', backgroundColor:'rgba(255,255,255,1)'});
+function resizeCanvas(){const ratio=Math.max(window.devicePixelRatio||1,1); const rect=canvas.getBoundingClientRect(); canvas.width=rect.width*ratio; canvas.height=rect.height*ratio; canvas.getContext('2d').scale(ratio,ratio); sigPad.clear();}
+window.addEventListener('resize',resizeCanvas); resizeCanvas();
+document.getElementById('clearSig').addEventListener('click',()=>sigPad.clear());
+document.getElementById('typeToSign').addEventListener('click',()=>{const name=(document.getElementById('owner').value||'').trim(); if(!name){alert('Enter Owner/Agent name first'); return;} sigPad.clear(); const ctx=canvas.getContext('2d'); ctx.font='28px Georgia'; ctx.fillStyle='#000'; ctx.fillText(name,16,120);});
+
+// Validation
+const $=id=>document.getElementById(id);
+function show(el,on=true){el.style.display=on?'block':'none';}
+function validate(){
+  if(!($('#procedure').value||$('#customProcedure').value.trim())){alert('Select procedure or specify other'); return false;}
+  if(!$('#owner').value.trim()||!$('#pet').value.trim()||!$('#email').value.trim()||!$('#surgeryDate').value){alert('Complete Owner, Pet, Email, Surgery Date'); return false;}
+  const qIds=['q_fasted','q_appetite','q_thirst','q_urine','q_vomit','q_diarrhea','q_cough','q_panting','q_hives','q_behavior'];
+  for(const id of qIds){if(!$(id).value){alert('Answer all pre-surgery questions'); return false;}}
+  if(!document.querySelector('input[name="preblood"]:checked')){alert('Select pre-anesthetic blood option'); return false;}
+  if(!document.querySelector('input[name="cpr"]:checked')){alert('Select CPR option'); return false;}
+  if(!$('#paymentAgree').checked){show($('#paymentErr')); return false;} show($('#paymentErr'),false);
+  if(sigPad.isEmpty()){show($('#sigErr')); return false;} show($('#sigErr'),false);
+  if(!$('#consentAgree').checked){show($('#consentErr')); return false;} show($('#consentErr'),false);
   return true;
 }
 
-/* ---------- Reset ---------- */
-document.getElementById('resetBtn').addEventListener('click', ()=>{
-  // simple full page reset
-  location.reload();
-});
-
-/* ---------- Build PDF and send to backend ---------- */
-document.getElementById('submitBtn').addEventListener('click', async ()=>{
+// PDF & Submit
+$('#submitBtn').addEventListener('click',()=>{
   if(!validate()) return;
+  const pdf=new jspdf.jsPDF('p','pt','a4');
+  pdf.setFontSize(12);
+  pdf.text(`Consent ID: ${consentId}`,40,40);
+  pdf.text(`Owner/Agent: ${$('#owner').value}`,40,60);
+  pdf.text(`Email: ${$('#email').value}`,40,80);
+  pdf.text(`Pet: ${$('#pet').value} (${$('#species').value})`,40,100);
+  pdf.text(`DOB: ${$('#dob').value||'N/A'}`,40,120);
+  pdf.text(`Surgery Date: ${$('#surgeryDate').value}`,40,140);
+  pdf.text(`Procedure: ${$('#procedure').value}${$('#customProcedure').value?' ('+$('#customProcedure').value+')':''}`,40,160);
+  pdf.text(`Risks & Complications:`,40,180);
+  const risksLines=pdf.splitTextToSize($('#risks').value,500); pdf.text(risksLines,40,200);
+  pdf.text(`Pre-Anesthetic Blood: ${document.querySelector('input[name="preblood"]:checked').value}`,40,220+risksLines.length*14);
+  pdf.text(`Optional Services: ${Array.from(document.querySelectorAll('.addon:checked')).map(c=>c.value).join(', ')||'None'}`,40,240+risksLines.length*14);
+  pdf.text(`CPR: ${document.querySelector('input[name="cpr"]:checked').value}`,40,260+risksLines.length*14);
+  pdf.text(`I consent and acknowledge payment: Yes`,40,280+risksLines.length*14);
+  const sigImg=sigPad.toDataURL('image/png'); pdf.addImage(sigImg,'PNG',40,300+risksLines.length*14,400,120);
+  pdf.save(`Consent-${consentId}.pdf`);
 
-  const procedure = procedureSel.value || $('customProcedure').value.trim();
-  const owner = $('owner').value.trim();
-  const ownerEmail = $('email').value.trim();
-  const pet = $('pet').value.trim();
-  const species = $('species').value;
-  const dob = $('dob').value || '—';
-  const surgeryDate = $('surgeryDate').value;
-  const consentStmt = $('consentAgree').checked ? 'Yes' : 'No';
-  const cpr = document.querySelector('input[name="cpr"]:checked')?.value || '';
-  const preblood = document.querySelector('input[name="preblood"]:checked')?.value || '';
-  const addons = Array.from(document.querySelectorAll('.addon:checked')).map(x=>x.value);
-  const preQ = {
-    fasted: $('q_fasted').value,
-    appetite: $('q_appetite').value,
-    thirst: $('q_thirst').value,
-    urine: $('q_urine').value,
-    vomit: $('q_vomit').value,
-    diarrhea: $('q_diarrhea').value,
-    cough: $('q_cough').value,
-    panting: $('q_panting').value,
-    hives: $('q_hives').value,
-    behavior: $('q_behavior').value
-  };
-
-  // build PDF
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ unit:'pt', format:'letter' });
-  let y = 40;
-
-  doc.setFont('helvetica','bold'); doc.setFontSize(14);
-  doc.text('Creekside Veterinary Hospital — Surgical Consent', 40, y); y+=18;
-  doc.setFont('helvetica','normal'); doc.setFontSize(10);
-  doc.text('12424 Symons Valley Road NW, Calgary, AB T3P 0A3 • (403) 274-6633 • info@creeksidevet.ca', 40, y); y+=18;
-  doc.text(`Consent ID: ${consentId}`, 40, y); y+=20;
-
-  doc.setFont('helvetica','bold'); doc.text('Owner & Patient', 40, y); y+=14; doc.setFont('helvetica','normal');
-  doc.text(`Owner: ${owner}`, 40, y); y+=14;
-  doc.text(`Email: ${ownerEmail}`, 40, y); y+=14;
-  doc.text(`Pet: ${pet}`, 40, y); y+=14;
-  doc.text(`Species: ${species}`, 40, y); y+=14;
-  doc.text(`DOB: ${dob}`, 40, y); y+=14;
-  doc.text(`Procedure: ${procedure}`, 40, y); y+=14;
-  doc.text(`Surgery Date: ${surgeryDate}`, 40, y); y+=20;
-
-  doc.setFont('helvetica','bold'); doc.text('Risks & Complications', 40, y); y+=14; doc.setFont('helvetica','normal');
-  const risks = doc.splitTextToSize(risksEl.value || '(none)', 535);
-  doc.text(risks, 40, y); y += (risks.length * 12) + 8;
-
-  doc.setFont('helvetica','bold'); doc.text('Pre-surgery Questions', 40, y); y+=14; doc.setFont('helvetica','normal');
-  const qs = [
-    `Fasted 12 hours: ${preQ.fasted}`,
-    `Decrease in appetite: ${preQ.appetite}`,
-    `Increased thirst: ${preQ.thirst}`,
-    `Urinating/soiling inside: ${preQ.urine}`,
-    `Vomiting: ${preQ.vomit}`,
-    `Diarrhea or bowel changes: ${preQ.diarrhea}`,
-    `Coughing: ${preQ.cough}`,
-    `Open-mouth breathing or panting (cats only): ${preQ.panting}`,
-    `Hives or skin rash: ${preQ.hives}`,
-    `Unusual behaviour: ${preQ.behavior}`
-  ];
-  const qText = doc.splitTextToSize(qs.join('\n'), 535);
-  doc.text(qText, 40, y); y += (qText.length * 12) + 8;
-
-  doc.setFont('helvetica','bold'); doc.text('Decisions & Services', 40, y); y+=14; doc.setFont('helvetica','normal');
-  doc.text(`CPR: ${cpr}`, 40, y); y+=14;
-  doc.text(`Pre-anesthetic blood testing: ${preblood}`, 40, y); y+=14;
-  doc.text(`Optional services: ${addons.length ? addons.join(', ') : 'None'}`, 40, y); y+=20;
-
-  doc.setFont('helvetica','bold'); doc.text('Payment Consent', 40, y); y+=14; doc.setFont('helvetica','normal');
-  const pay = `Owner agreed to payment terms at time of discharge. Owner accepts financial responsibility for care.`;
-  const payTxt = doc.splitTextToSize(pay, 535);
-  doc.text(payTxt, 40, y); y += (payTxt.length * 12) + 12;
-
-  // Signature
-  const sigData = sigPad.toDataURL('image/png');
-  doc.setFont('helvetica','bold'); doc.text('Owner/Agent Signature:', 40, y); y+=10;
-  const sigW = 260, sigH = 80;
-  doc.addImage(sigData, 'PNG', 40, y, sigW, sigH);
-  y += sigH + 18;
-  const when = new Date().toLocaleString();
-  doc.setFont('helvetica','normal'); doc.text(`Signed: ${when}`, 40, y); y+=20;
-
-  doc.setDrawColor(200,200,200);
-  doc.line(40, y, 572, y); y+=14;
-  doc.setTextColor(120);
-  doc.text('Electronically signed. Clinic copy will be emailed to owner and clinic.', 40, y);
-
-  // convert to blob
-  const pdfBlob = doc.output('blob');
-  const fileName = `${pet}_${procedure.replace(/\s+/g,'')}_${surgeryDate}_Consent_${consentId}.pdf`;
-
-  // prepare form data
-  const form = new FormData();
-  form.append('consentId', consentId);
-  form.append('owner', owner);
-  form.append('ownerEmail', ownerEmail);
-  form.append('clinicEmail', 'info@creeksidevet.ca'); // backend will use configured clinic email primarily
-  form.append('pet', pet);
-  form.append('procedure', procedure);
-  form.append('surgeryDate', surgeryDate);
-  form.append('risks', risksEl.value);
-  form.append('cpr', cpr);
-  form.append('preblood', preblood);
-  form.append('addons', addons.join('|'));
-  form.append('pdf', pdfBlob, fileName);
-
-  // send to backend
-  try{
-    const resp = await fetch('/send-consent', {
-      method: 'POST',
-      body: form
-    });
-    if(!resp.ok){
-      const text = await resp.text();
-      alert('Error sending consent to clinic server: ' + text);
-      return;
-    }
-    const json = await resp.json();
-    // optional: force client download as backup
-    const url = URL.createObjectURL(pdfBlob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-
-    alert('Consent sent to clinic and owner. A copy downloaded for your records.');
-  }catch(err){
-    console.error(err);
-    alert('Network error while sending consent. Check server.');
-  }
+  // Send PDF to backend (example)
+  pdf.getBlob(blob=>{
+    const formData=new FormData();
+    formData.append('pdf',blob,`Consent-${consentId}.pdf`);
+    formData.append('email',$('#email').value);
+    fetch('/send-consent',{method:'POST',body:formData}).then(r=>r.ok?alert('Consent submitted & emailed') : alert('Error sending consent'));
+  });
 });
+
+$('#resetBtn').addEventListener('click',()=>{document.querySelectorAll('input,textarea,select').forEach(i=>i.value=''); sigPad.clear(); document.querySelectorAll('.error').forEach(e=>e.style.display='none');});
 </script>
 </body>
 </html>

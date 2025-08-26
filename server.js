@@ -1,87 +1,90 @@
+// server.js
 import express from "express";
-import nodemailer from "nodemailer";
 import multer from "multer";
+import { Client } from "@microsoft/microsoft-graph-client";
+import "isomorphic-fetch";
 import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
+import fetch from "node-fetch";
 
 dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
 
-// Serve static files
-app.use(express.static(path.join(__dirname)));
+// Function to get Microsoft Graph access token using client credentials
+async function getAccessToken() {
+  const url = `https://login.microsoftonline.com/${process.env.TENANT_ID}/oauth2/v2.0/token`;
+  const params = new URLSearchParams();
+  params.append("client_id", process.env.CLIENT_ID);
+  params.append("client_secret", process.env.CLIENT_SECRET);
+  params.append("scope", "https://graph.microsoft.com/.default");
+  params.append("grant_type", "client_credentials");
 
-// Parse form data
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-// Endpoint to serve conditions (pre-surgery questions, optional services)
-app.get("/conditions", (req, res) => {
-  res.json({
-    procedures: {
-      "Dental Prophylaxis": "Risks include gingival irritation, minor bleeding.",
-      "Dental with Extractions": "Risks include infection, pain, bleeding.",
-      "Spay (Ovariohysterectomy)": "Risks include hemorrhage, infection, anesthesia complications.",
-      "Neuter (Castration)": "Risks include infection, bleeding, anesthesia complications.",
-      "Mass Removal": "Risks include infection, recurrence, anesthesia complications.",
-      "Cherry Eye Repair": "Risks include infection, recurrence, bleeding.",
-      "Other": ""
-    },
-    preSurgeryQuestions: [
-      "Has your pet had any previous anesthesia complications?",
-      "Is your pet currently on any medications?",
-      "Has your pet had any recent illnesses or vaccinations?"
-    ],
-    optionalServices: [
-      "Pain medications post-surgery",
-      "Antibiotics",
-      "Microchipping",
-      "Fluoride treatment"
-    ]
+  const response = await fetch(url, {
+    method: "POST",
+    body: params,
+    headers: { "Content-Type": "application/x-www-form-urlencoded" }
   });
-});
 
-// Endpoint to receive consent form PDF
+  if (!response.ok) {
+    throw new Error("Failed to fetch access token");
+  }
+
+  const data = await response.json();
+  return data.access_token;
+}
+
+// Endpoint to receive consent form
 app.post("/send-consent", upload.single("pdf"), async (req, res) => {
   try {
-    const { owner, ownerEmail, pet, procedure, surgeryDate } = req.body;
+    const { ownerEmail, owner, pet, procedure, surgeryDate, consentId } = req.body;
     const pdfBuffer = req.file.buffer;
+    const base64Pdf = pdfBuffer.toString("base64");
 
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT),
-      secure: false,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
+    // Get fresh access token
+    const token = await getAccessToken();
+
+    // Initialize Graph client
+    const client = Client.init({
+      authProvider: (done) => done(null, token)
     });
 
-    await transporter.sendMail({
-      from: `"Creekside Vet" <${process.env.EMAIL_USER}>`,
-      to: ownerEmail,
-      subject: `Surgical Consent Form — ${pet}`,
-      text: `Hello ${owner},\n\nAttached is the surgical consent form for ${pet}.\nProcedure: ${procedure}\nSurgery Date: ${surgeryDate}\n\nThank you.`,
-      attachments: [
-        {
-          filename: `${pet}_${procedure}_Consent.pdf`,
-          content: pdfBuffer
-        }
-      ]
-    });
+    const mail = {
+      message: {
+        subject: `Consent Form: ${pet} - ${procedure}`,
+        body: {
+          contentType: "HTML",
+          content: `
+            Hello ${owner},<br><br>
+            Attached is your pet's consent form.<br><br>
+            Consent ID: ${consentId}<br>
+            Surgery Date: ${surgeryDate}<br><br>
+            Creekside Veterinary Hospital
+          `
+        },
+        toRecipients: [
+          { emailAddress: { address: ownerEmail } }
+        ],
+        attachments: [
+          {
+            "@odata.type": "#microsoft.graph.fileAttachment",
+            name: `${pet}_${procedure}_Consent.pdf`,
+            contentBytes: base64Pdf
+          }
+        ]
+      },
+      saveToSentItems: "true"
+    };
 
-    res.status(200).send("Consent sent successfully.");
+    await client.api("/users/YOUR_SENDER_EMAIL/sendMail").post(mail);
+
+    res.json({ success: true, message: "Email sent successfully." });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Failed to send consent form.");
+    res.status(500).json({ success: false, message: "Failed to send email." });
   }
 });
 
-// Listen on Azure-assigned port
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Serve your front-end
+app.use(express.static("public"));
+
+app.listen(3000, () => console.log("Server running on port 3000"));
