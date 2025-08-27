@@ -306,14 +306,24 @@ $('#submitBtn').addEventListener('click',()=>{
   const sigImg=sigPad.toDataURL('image/png'); pdf.addImage(sigImg,'PNG',40,300+risksLines.length*14,400,120);
   pdf.save(`Consent-${consentId}.pdf`);
 
-    // Send PDF to backend
-  pdf.getBlob(blob=>{
-    const formData=new FormData();
-    formData.append('pdf',blob,`Consent-${consentId}.pdf`);
-    formData.append('email',$('#email').value);
-    fetch('/submit-form',{method:'POST',body:formData}).then(r=>r.ok?alert('Consent submitted & emailed') : alert('Error sending consent'));
-  });
+// Send PDF to backend
+pdf.getBlob(blob => {
+  const formData = new FormData();
+  formData.append('pdf', blob, `Consent-${consentId}.pdf`);
+  formData.append('ownerName', $('#owner').value);
+  formData.append('ownerEmail', $('#email').value);
+  formData.append('petName', $('#pet').value);
+  formData.append('procedure', $('#procedure').value + ($('#customProcedure').value ? ' (' + $('#customProcedure').value + ')' : ''));
+  formData.append('consent', 'Agreed');
+  formData.append('surgeryDate', $('#surgeryDate').value);
+  
+  fetch('/submit-form', {   // <-- updated route
+    method: 'POST',
+    body: formData
+  })
+  .then(r => r.ok ? alert('Consent submitted & emailed') : alert('Error sending consent'));
 });
+
 
 $('#resetBtn').addEventListener('click',()=>{document.querySelectorAll('input,textarea,select').forEach(i=>i.value=''); sigPad.clear(); document.querySelectorAll('.error').forEach(e=>e.style.display='none');});
 </script>

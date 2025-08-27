@@ -11,7 +11,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Get Access Token from Microsoft Identity
 async function getAccessToken() {
   const url = `https://login.microsoftonline.com/${process.env.OAUTH_TENANT_ID}/oauth2/v2.0/token`;
-
   const params = new URLSearchParams();
   params.append("client_id", process.env.OAUTH_CLIENT_ID);
   params.append("client_secret", process.env.OAUTH_CLIENT_SECRET);
@@ -43,3 +42,46 @@ async function sendEmail(formData) {
         contentType: "HTML",
         content: `
           <h2>New Consent Form Submission</h2>
+          <p><strong>Owner Name:</strong> ${formData.ownerName}</p>
+          <p><strong>Pet Name:</strong> ${formData.petName}</p>
+          <p><strong>Procedure:</strong> ${formData.procedure}</p>
+          <p><strong>Consent Given:</strong> ${formData.consent}</p>
+        `
+      },
+      toRecipients: [
+        { emailAddress: { address: process.env.OAUTH_USER } }
+      ]
+    }
+  };
+
+  const res = await fetch("https://graph.microsoft.com/v1.0/users/" + process.env.OAUTH_USER + "/sendMail", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(email)
+  });
+
+  if (!res.ok) {
+    const error = await res.text();
+    throw new Error("Failed to send email: " + error);
+  }
+}
+
+// Route for form submission
+app.post("/submit-form", async (req, res) => {
+  try {
+    await sendEmail(req.body);
+    res.json({ success: true, message: "Form submitted and email sent" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Error sending email" });
+  }
+});
+
+// Serve static consent form (index.html)
+app.use(express.static("./"));
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
