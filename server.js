@@ -1,90 +1,54 @@
-// server.js
 import express from "express";
 import multer from "multer";
-import { Client } from "@microsoft/microsoft-graph-client";
-import "isomorphic-fetch";
-import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
 import fetch from "node-fetch";
+import dotenv from "dotenv";
 
 dotenv.config();
+
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
+const __dirname = path.resolve();
 
-// Function to get Microsoft Graph access token using client credentials
-async function getAccessToken() {
-  const url = `https://login.microsoftonline.com/${process.env.TENANT_ID}/oauth2/v2.0/token`;
-  const params = new URLSearchParams();
-  params.append("client_id", process.env.CLIENT_ID);
-  params.append("client_secret", process.env.CLIENT_SECRET);
-  params.append("scope", "https://graph.microsoft.com/.default");
-  params.append("grant_type", "client_credentials");
+// Serve static files (your consent form HTML must be in project root)
+app.use(express.static(__dirname));
 
-  const response = await fetch(url, {
-    method: "POST",
-    body: params,
-    headers: { "Content-Type": "application/x-www-form-urlencoded" }
-  });
+// Middleware to parse JSON bodies
+app.use(express.json());
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch access token");
-  }
-
-  const data = await response.json();
-  return data.access_token;
-}
-
-// Endpoint to receive consent form
-app.post("/send-consent", upload.single("pdf"), async (req, res) => {
+// Email sending route
+app.post("/send-email", upload.none(), async (req, res) => {
   try {
-    const { ownerEmail, owner, pet, procedure, surgeryDate, consentId } = req.body;
-    const pdfBuffer = req.file.buffer;
-    const base64Pdf = pdfBuffer.toString("base64");
+    const { ownerName, petName, services, complications, cprConsent, signature } = req.body;
 
-    // Get fresh access token
-    const token = await getAccessToken();
+    const emailContent = `
+      Consent Form Submission:
 
-    // Initialize Graph client
-    const client = Client.init({
-      authProvider: (done) => done(null, token)
-    });
+      Owner: ${ownerName}
+      Pet: ${petName}
+      Services: ${services}
+      Complications Discussed: ${complications}
+      CPR Consent: ${cprConsent}
+      Signature: ${signature ? "Attached" : "Not provided"}
+    `;
 
-    const mail = {
+    const message = {
       message: {
-        subject: `Consent Form: ${pet} - ${procedure}`,
+        subject: `Consent Form for ${petName}`,
         body: {
-          contentType: "HTML",
-          content: `
-            Hello ${owner},<br><br>
-            Attached is your pet's consent form.<br><br>
-            Consent ID: ${consentId}<br>
-            Surgery Date: ${surgeryDate}<br><br>
-            Creekside Veterinary Hospital
-          `
+          contentType: "Text",
+          content: emailContent,
         },
         toRecipients: [
-          { emailAddress: { address: ownerEmail } }
-        ],
-        attachments: [
           {
-            "@odata.type": "#microsoft.graph.fileAttachment",
-            name: `${pet}_${procedure}_Consent.pdf`,
-            contentBytes: base64Pdf
-          }
-        ]
+            emailAddress: {
+              address: process.env.RECIPIENT_EMAIL, // set in .env
+            },
+          },
+        ],
       },
-      saveToSentItems: "true"
     };
 
-    await client.api("/users/YOUR_SENDER_EMAIL/sendMail").post(mail);
-
-    res.json({ success: true, message: "Email sent successfully." });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, message: "Failed to send email." });
-  }
-});
-
-// Serve your front-end
-app.use(express.static("public"));
-
-app.listen(3000, () => console.log("Server running on port 3000"));
+    const response = await fetch("https://graph.microsoft.com/v1.0/me/sendMail", {
+      method: "POST",
