@@ -1,5 +1,5 @@
 {
-  "name": "surgical-consent-azure",
+  "name": "consent-form",
   "version": "1.0.0",
   "description": "Surgical consent form app for Creekside Veterinary Hospital",
   "type": "module",
@@ -20,3 +20,4 @@
     "nodemailer": "^6.9.4"
   }
 }
+
