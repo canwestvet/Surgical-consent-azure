@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
 import multer from "multer";
+import path from "path";
 
 dotenv.config();
 const app = express();
@@ -10,6 +11,11 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Serve the consent-form.html file when visiting "/"
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve("./consent-form.html"));
+});
 
 // Get Access Token from Microsoft Identity
 async function getAccessToken() {
@@ -97,8 +103,9 @@ app.post("/submit-form", upload.single("pdf"), async (req, res) => {
   }
 });
 
-// Serve static consent form (index.html or consent-form.html)
+// Serve static assets if needed
 app.use(express.static("./"));
 
+// Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
