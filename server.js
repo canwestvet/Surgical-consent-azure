@@ -2,9 +2,12 @@ import express from "express";
 import bodyParser from "body-parser";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
+import multer from "multer";
 
 dotenv.config();
 const app = express();
+const upload = multer({ storage: multer.memoryStorage() });
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -32,7 +35,7 @@ async function getAccessToken() {
 }
 
 // Send email using Graph API
-async function sendEmail(formData) {
+async function sendEmail(formData, pdfBuffer, pdfName) {
   const accessToken = await getAccessToken();
 
   const email = {
@@ -42,19 +45,29 @@ async function sendEmail(formData) {
         contentType: "HTML",
         content: `
           <h2>New Consent Form Submission</h2>
-          <p><strong>Owner Name:</strong> ${formData.ownerName}</p>
-          <p><strong>Pet Name:</strong> ${formData.petName}</p>
-          <p><strong>Procedure:</strong> ${formData.procedure}</p>
-          <p><strong>Consent Given:</strong> ${formData.consent}</p>
+          <p><strong>Owner Name:</strong> ${formData.ownerName || ""}</p>
+          <p><strong>Pet Name:</strong> ${formData.petName || ""}</p>
+          <p><strong>Procedure:</strong> ${formData.procedure || ""}</p>
+          <p><strong>Consent Given:</strong> ${formData.consent || ""}</p>
+          <p><strong>Email:</strong> ${formData.email || ""}</p>
         `
       },
       toRecipients: [
         { emailAddress: { address: process.env.OAUTH_USER } }
-      ]
+      ],
+      attachments: pdfBuffer
+        ? [
+            {
+              "@odata.type": "#microsoft.graph.fileAttachment",
+              name: pdfName || "ConsentForm.pdf",
+              contentBytes: pdfBuffer.toString("base64")
+            }
+          ]
+        : []
     }
   };
 
-  const res = await fetch("https://graph.microsoft.com/v1.0/users/" + process.env.OAUTH_USER + "/sendMail", {
+  const res = await fetch(`https://graph.microsoft.com/v1.0/users/${process.env.OAUTH_USER}/sendMail`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -69,10 +82,14 @@ async function sendEmail(formData) {
   }
 }
 
-// Route for form submission
-app.post("/submit-form", async (req, res) => {
+// Route for form submission (with PDF upload)
+app.post("/submit-form", upload.single("pdf"), async (req, res) => {
   try {
-    await sendEmail(req.body);
+    const formData = req.body;
+    const pdfBuffer = req.file ? req.file.buffer : null;
+    const pdfName = req.file ? req.file.originalname : null;
+
+    await sendEmail(formData, pdfBuffer, pdfName);
     res.json({ success: true, message: "Form submitted and email sent" });
   } catch (err) {
     console.error(err);
@@ -80,7 +97,7 @@ app.post("/submit-form", async (req, res) => {
   }
 });
 
-// Serve static consent form (index.html)
+// Serve static consent form (index.html or consent-form.html)
 app.use(express.static("./"));
 
 const PORT = process.env.PORT || 3000;
