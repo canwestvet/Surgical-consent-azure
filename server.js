@@ -4,23 +4,26 @@ import fetch from "node-fetch";
 import dotenv from "dotenv";
 import multer from "multer";
 import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
 
+// Fix __dirname with ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve the consent form HTML on "/"
+// Serve consent-form.html at "/"
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve("./consent-form.html"));
+  res.sendFile(path.join(__dirname, "consent-form.html"));
 });
 
-// Serve static assets if needed
-app.use(express.static("./"));
-
-// Get Access Token from Microsoft Identity
+// Get Microsoft Access Token
 async function getAccessToken() {
   const url = `https://login.microsoftonline.com/${process.env.OAUTH_TENANT_ID}/oauth2/v2.0/token`;
   const params = new URLSearchParams();
@@ -43,7 +46,7 @@ async function getAccessToken() {
   return data.access_token;
 }
 
-// Send email with Graph API
+// Send email with PDF
 async function sendEmail(formData, pdfBuffer, pdfName) {
   const accessToken = await getAccessToken();
 
@@ -61,9 +64,7 @@ async function sendEmail(formData, pdfBuffer, pdfName) {
           <p><strong>Email:</strong> ${formData.email || ""}</p>
         `
       },
-      toRecipients: [
-        { emailAddress: { address: process.env.OAUTH_USER } }
-      ],
+      toRecipients: [{ emailAddress: { address: process.env.OAUTH_USER } }],
       attachments: pdfBuffer
         ? [
             {
@@ -76,14 +77,17 @@ async function sendEmail(formData, pdfBuffer, pdfName) {
     }
   };
 
-  const res = await fetch(`https://graph.microsoft.com/v1.0/users/${process.env.OAUTH_USER}/sendMail`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(email)
-  });
+  const res = await fetch(
+    `https://graph.microsoft.com/v1.0/users/${process.env.OAUTH_USER}/sendMail`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(email)
+    }
+  );
 
   if (!res.ok) {
     const error = await res.text();
@@ -91,7 +95,7 @@ async function sendEmail(formData, pdfBuffer, pdfName) {
   }
 }
 
-// Route for form submission
+// Form submission route
 app.post("/submit-form", upload.single("pdf"), async (req, res) => {
   try {
     const formData = req.body;
@@ -99,13 +103,19 @@ app.post("/submit-form", upload.single("pdf"), async (req, res) => {
     const pdfName = req.file ? req.file.originalname : null;
 
     await sendEmail(formData, pdfBuffer, pdfName);
+
     res.json({ success: true, message: "Form submitted and email sent" });
   } catch (err) {
-    console.error(err);
+    console.error("Error sending email:", err);
     res.status(500).json({ success: false, message: "Error sending email" });
   }
 });
 
+// Serve static files (css, js, etc.)
+app.use(express.static(__dirname));
+
 // Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, () =>
+  console.log(`Server running on http://localhost:${PORT}`)
+);
