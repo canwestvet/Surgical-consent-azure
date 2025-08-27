@@ -12,10 +12,13 @@ const upload = multer({ storage: multer.memoryStorage() });
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve the consent-form.html file when visiting "/"
+// Serve the consent form HTML on "/"
 app.get("/", (req, res) => {
   res.sendFile(path.resolve("./consent-form.html"));
 });
+
+// Serve static assets if needed
+app.use(express.static("./"));
 
 // Get Access Token from Microsoft Identity
 async function getAccessToken() {
@@ -40,7 +43,7 @@ async function getAccessToken() {
   return data.access_token;
 }
 
-// Send email using Graph API
+// Send email with Graph API
 async function sendEmail(formData, pdfBuffer, pdfName) {
   const accessToken = await getAccessToken();
 
@@ -88,7 +91,7 @@ async function sendEmail(formData, pdfBuffer, pdfName) {
   }
 }
 
-// Route for form submission (with PDF upload)
+// Route for form submission
 app.post("/submit-form", upload.single("pdf"), async (req, res) => {
   try {
     const formData = req.body;
@@ -102,9 +105,6 @@ app.post("/submit-form", upload.single("pdf"), async (req, res) => {
     res.status(500).json({ success: false, message: "Error sending email" });
   }
 });
-
-// Serve static assets if needed
-app.use(express.static("./"));
 
 // Start server
 const PORT = process.env.PORT || 3000;

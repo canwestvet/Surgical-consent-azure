@@ -285,37 +285,43 @@ function validate(){
   return true;
 }
 
-// PDF & Submit
-$('#submitBtn').addEventListener('click',()=>{
+// Submit button
+$('#submitBtn').addEventListener('click',async ()=>{
   if(!validate()) return;
-  const pdf=new jspdf.jsPDF('p','pt','a4');
-  pdf.setFontSize(12);
-  pdf.text(`Consent ID: ${consentId}`,40,40);
-  pdf.text(`Owner/Agent: ${$('#owner').value}`,40,60);
-  pdf.text(`Email: ${$('#email').value}`,40,80);
-  pdf.text(`Pet: ${$('#pet').value} (${$('#species').value})`,40,100);
-  pdf.text(`DOB: ${$('#dob').value||'N/A'}`,40,120);
-  pdf.text(`Surgery Date: ${$('#surgeryDate').value}`,40,140);
-  pdf.text(`Procedure: ${$('#procedure').value}${$('#customProcedure').value?' ('+$('#customProcedure').value+')':''}`,40,160);
-  pdf.text(`Risks & Complications:`,40,180);
-  const risksLines=pdf.splitTextToSize($('#risks').value,500); pdf.text(risksLines,40,200);
-  pdf.text(`Pre-Anesthetic Blood: ${document.querySelector('input[name="preblood"]:checked').value}`,40,220+risksLines.length*14);
-  pdf.text(`Optional Services: ${Array.from(document.querySelectorAll('.addon:checked')).map(c=>c.value).join(', ')||'None'}`,40,240+risksLines.length*14);
-  pdf.text(`CPR: ${document.querySelector('input[name="cpr"]:checked').value}`,40,260+risksLines.length*14);
-  pdf.text(`I consent and acknowledge payment: Yes`,40,280+risksLines.length*14);
-  const sigImg=sigPad.toDataURL('image/png'); pdf.addImage(sigImg,'PNG',40,300+risksLines.length*14,400,120);
-  pdf.save(`Consent-${consentId}.pdf`);
 
-    // Send PDF to backend
+  const pdf = new jspdf.jsPDF('p','pt','a4');
+  pdf.setFontSize(14);
+  pdf.text('Creekside Veterinary Hospital - Consent Form',40,40);
+  pdf.text(`Consent ID: ${consentId}`,40,60);
+  pdf.text(`Owner: ${$('#owner').value}`,40,80);
+  pdf.text(`Pet: ${$('#pet').value}`,40,100);
+  pdf.text(`Procedure: ${$('#procedure').value}${$('#customProcedure').value?' - '+$('#customProcedure').value:''}`,40,120);
+  pdf.text('Risks & Complications:',40,140);
+  pdf.text($('#risks').value,40,160, {maxWidth:500});
+
+  // Add signature image
+  const sigData = sigPad.toDataURL('image/png');
+  pdf.addImage(sigData,'PNG',40,400,200,100);
+
+  // Send PDF to backend
   pdf.getBlob(blob=>{
     const formData=new FormData();
     formData.append('pdf',blob,`Consent-${consentId}.pdf`);
+    formData.append('ownerName',$('#owner').value);
+    formData.append('petName',$('#pet').value);
+    formData.append('procedure',$('#procedure').value+( $('#customProcedure').value?' - '+$('#customProcedure').value:''));
     formData.append('email',$('#email').value);
-    fetch('/submit-form',{method:'POST',body:formData}).then(r=>r.ok?alert('Consent submitted & emailed') : alert('Error sending consent'));
+    formData.append('consent',$('#consentAgree').checked?'Yes':'No');
+    fetch('/submit-form',{method:'POST',body:formData})
+    .then(r=>r.json())
+    .then(data=>{if(data.success){alert('Consent submitted & emailed'); location.reload();}else{alert('Error sending consent')}})
+    .catch(err=>{console.error(err); alert('Error sending consent');});
   });
 });
 
-$('#resetBtn').addEventListener('click',()=>{document.querySelectorAll('input,textarea,select').forEach(i=>i.value=''); sigPad.clear(); document.querySelectorAll('.error').forEach(e=>e.style.display='none');});
+// Reset button
+$('#resetBtn').addEventListener('click',()=>location.reload());
 </script>
+
 </body>
 </html>
